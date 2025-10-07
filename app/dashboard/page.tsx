@@ -30,16 +30,16 @@ import {
   SidebarSeparator,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import {
-  ContinuousLearningSection,
-  FinancialIndependenceSection,
-  LegacySection,
-  MentalHealthSection,
-  PhysicalHealthSection,
-  ProfessionalMasterySection,
-  PurposeMeaningSection,
-  RelationshipsSection,
-} from "@/components/dashboard/sections";
+
+import ContinuousLearningSection from "@/components/dashboard/continuous_learning_section";
+import FinancialIndependenceSection from "@/components/dashboard/financial_independence_section";
+import LegacySection from "@/components/dashboard/legacy_section";
+import ProfessionalMasterySection from "@/components/dashboard/professional_mastery_section";
+import PurposeMeaningSection from "@/components/dashboard/purpose_meaning_section";
+import RelationshipsSection from "@/components/dashboard/relationships_section";
+import PhysicalHealthSection from "@/components/dashboard/physical_health_section";
+import MentalHealthSection from "@/components/dashboard/mental_health_section"; 
+
 import { OverviewSection } from "@/components/dashboard/overview";
 
 type SectionKey =
@@ -58,7 +58,7 @@ type DashboardSection = {
   label: string;
   intro: string;
   icon: LucideIcon;
-  Component: () => JSX.Element;
+  Component: () => React.JSX.Element;
 };
 
 const SECTIONS: DashboardSection[] = [

@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  registrosNutricion    RegistroNutricion[]
+  registrosEjercicio    RegistroEjercicio[]
+  registrosDescanso     RegistroDescanso[]
+  registrosEnergiaVital RegistroEnergiaVital[]
+}
+
+model Pilar {
+  id        String   @id @default(cuid())
+  nombre    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  registrosNutricion    RegistroNutricion[]
+  registrosEjercicio    RegistroEjercicio[]
+  registrosDescanso     RegistroDescanso[]
+  registrosEnergiaVital RegistroEnergiaVital[]
+}
+
+model RegistroNutricion {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pilarId   String
+  pilar     Pilar    @relation(fields: [pilarId], references: [id], onDelete: Cascade)
+
+  fecha DateTime @default(now())
+
+  comidasPrincipales Int
+  calidadGeneral     Int
+  hidratacion        Int
+
+  desayunoSaludable   Boolean? @default(false)
+  porcionesVegetales  Int?     @default(0)
+  porcionesProcesados Int?     @default(0)
+  proteinaSuficiente  Boolean? @default(false)
+  notas               String?  @db.Text
+
+  caloriasAprox Int?
+  peso          Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("registros_nutricion")
+}
+
+model RegistroEjercicio {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pilarId   String
+  pilar     Pilar    @relation(fields: [pilarId], references: [id], onDelete: Cascade)
+
+  fecha DateTime @default(now())
+
+  hizoEjercicio Boolean
+  tipoActividad String[]
+  duracion      Int
+  intensidad    Int
+
+  descripcion   String? @db.Text
+  sensacionPost String?
+  pasos         Int?
+
+  distancia    Float?
+  repeticiones String?
+  calorias     Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("registros_ejercicio")
+}
+
+model RegistroDescanso {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pilarId   String
+  pilar     Pilar    @relation(fields: [pilarId], references: [id], onDelete: Cascade)
+
+  fecha DateTime @default(now())
+
+  horasSueno    Float
+  calidadSueno  Int
+  horaDormir    String
+  horaDespertar String
+
+  descansado      Boolean? @default(false)
+  interrupciones  Int?     @default(0)
+  siesta          Int?
+  facilidadDormir String?
+
+  pantallasAntes Boolean? @default(false)
+  cafeinaTarde   Boolean? @default(false)
+  estres         Boolean? @default(false)
+  notas          String?  @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("registros_descanso")
+}
+
+model RegistroEnergiaVital {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pilarId   String
+  pilar     Pilar    @relation(fields: [pilarId], references: [id], onDelete: Cascade)
+
+  fecha DateTime @default(now())
+
+  nivelEnergiaGeneral Int
+  energiaManana       Int
+  energiaTarde        Int
+
+  estadoAnimo   String
+  estres        Int
+  motivacion    Int
+  concentracion Int
+
+  enfermo      Boolean  @default(false)
+  sintomas     String[]
+  energizantes String[]
+  tazasCafe    Int?     @default(0)
+
+  comoTeSientes String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("registros_energia_vital")
+}
