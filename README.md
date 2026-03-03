@@ -34,5 +34,13 @@ Then open `http://localhost:3000`.
 ## Why it matters
 Evolv demonstrates the ability to move from idea to product foundation, balancing delivery speed with maintainable architecture.
 
+---
 ## Author
-**Carlos Garzón**
+
+- Created by **Carlos Garzón**
+- Software Engineer, Fullstack Developer.
+---
+
+## Licenses
+
+MIT
